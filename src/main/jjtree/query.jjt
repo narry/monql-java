@@ -7,7 +7,7 @@ options
 }
 
 PARSER_BEGIN(Query)
-package com.google.code.monql.grammar;
+package com.monql.grammar;
 
 import java.io.StringReader;
 import java.io.Reader;
