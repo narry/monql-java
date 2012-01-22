@@ -1,0 +1,118 @@
+options
+{
+	 JDK_VERSION = "1.5";
+ 	static = false;
+ 	MULTI=true;
+ 	VISITOR=true;
+}
+
+PARSER_BEGIN(Query)
+package com.monql.grammar;
+
+import java.io.StringReader;
+import java.io.Reader;
+
+public class Query {
+
+	public Query(String s) 
+    {
+        this((Reader)(new StringReader(s))); 
+        
+    }
+   
+    public static void main(String args[])
+    {
+        try
+        {
+                String query = "a = :1 and (b = :2 or c = :3)";
+                Query parser = new Query(query);
+                parser.parse().dump("");
+        }
+        catch(Exception e)
+        {
+                e.printStackTrace();
+        }
+    }
+    
+}
+
+PARSER_END(Query)
+
+SKIP :                              
+{
+	 " "
+	| "\t"
+	| "\r"
+	| "\n"
+}
+
+TOKEN: 
+{
+		<AND: "and">
+	|  <OR:  "or">
+	|  <LPAREN: "(">
+	|  <RPAREN: ")">
+	|  <EQUALS: "=">
+	|  <NOTEQUAL: "!=">
+}
+
+TOKEN : 
+{
+  		  <KEYWORD: (["A"-"Z","a"-"z","0"-"9"])+ >
+	| 	 < PARAM_NUM: ":"["1"-"9"] >
+}
+
+SimpleNode parse()  #Root :
+{
+}
+{
+    expression()   <EOF>
+    {		return(SimpleNode) jjtThis.children[0];
+    }
+}
+
+void expression() #And(>1) :
+{
+	Token t = null;
+}
+{
+  			 termOrExpression()
+            (
+              ( t = <AND> |t = <OR> ) 
+              termOrExpression()
+				 {
+              	jjtThis.setOp(t.image);
+              }
+              )*
+}
+
+void termOrExpression()  #void :
+{
+}
+{
+    	term()
+        |
+        <LPAREN> expression() <RPAREN>
+}
+
+void term()  #Term :
+{
+	Token key = null;
+	Token op = null;
+	Token value = null;
+}
+{
+    	key=<KEYWORD>
+        ( op=<EQUALS> | op=<NOTEQUAL> ) 
+        ( value=<PARAM_NUM>)
+        {
+         	jjtThis.setKey(key.image);
+			jjtThis.setOp(op.image);
+			jjtThis.setValue(value.image);
+        }
+}
+
+
+
+
+
