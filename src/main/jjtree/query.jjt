@@ -53,7 +53,14 @@ TOKEN:
 	|  <LPAREN: "(">
 	|  <RPAREN: ")">
 	|  <EQUALS: "=">
-	|  <NOTEQUAL: "!=">
+	|  <NE: "!=">
+	|  <LT: "<" >
+	|  <LTE: "<=" >
+	|  <GT: ">" >
+	|	<GTE: ">=" >
+	|  <IN: "in" >
+	|  <ALL: "all" >
+	|  <EXISTS: "exists" >
 }
 
 TOKEN : 
@@ -103,7 +110,7 @@ void term()  #Term :
 }
 {
     	key=<KEYWORD>
-        ( op=<EQUALS> | op=<NOTEQUAL> ) 
+        ( op=<EQUALS> | op=<NE> | op=<LT> | op=<LTE> | op=<GT> | op=<GTE> | op=<IN> | op=<ALL> | op=<EXISTS> ) 
         ( value=<PARAM_NUM>)
         {
          	jjtThis.setKey(key.image);
