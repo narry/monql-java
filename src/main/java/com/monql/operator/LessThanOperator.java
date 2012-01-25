@@ -9,13 +9,17 @@ import com.mongodb.DBObject;
  * @author monql
  * @since 2012-1-23 上午11:25:03
  */
-public class LessThanOperator implements Operator {
+public class LessThanOperator extends AbstractOperator {
 
-    static LessThanOperator INSTANCE = new LessThanOperator();
+    static Operator INSTANCE = new LessThanOperator();
     
     @Override
     public DBObject execute(String key, Object value) {
         return new BasicDBObject(key, new BasicDBObject(Operators.LT, value));
+    }
+    
+    @Override
+    public void checkValue(Object value) {
     }
     
 }

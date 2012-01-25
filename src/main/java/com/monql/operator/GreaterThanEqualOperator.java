@@ -9,13 +9,17 @@ import com.mongodb.DBObject;
  * @author monql
  * @since 2012-1-23 上午11:28:18
  */
-public class GreaterThanEqualOperator implements Operator {
+public class GreaterThanEqualOperator extends AbstractOperator {
 
-    static GreaterThanEqualOperator INSTANCE = new GreaterThanEqualOperator();
+    static Operator INSTANCE = new GreaterThanEqualOperator();
     
     @Override
     public DBObject execute(String key, Object value) {
         return new BasicDBObject(key, new BasicDBObject(Operators.GTE, value));
+    }
+    
+    @Override
+    public void checkValue(Object value) {
     }
     
 }

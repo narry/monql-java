@@ -9,13 +9,17 @@ import com.mongodb.DBObject;
  * @author monql
  * @since 2012-1-23 上午11:14:36
  */
-public class EqualOperator implements Operator {
+public class EqualOperator extends AbstractOperator {
 
-    static EqualOperator INSTANCE = new EqualOperator();
+    static Operator INSTANCE = new EqualOperator();
     
     @Override
     public DBObject execute(String key, Object value) {
         return new BasicDBObject(key, value);
+    }
+    
+    @Override
+    public void checkValue(Object value) {
     }
     
 }

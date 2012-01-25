@@ -8,13 +8,18 @@ import com.mongodb.DBObject;
  * @author monql
  * @since 2012-1-23 上午11:40:18
  */
-public class AllOperator implements Operator {
+public class AllOperator extends AbstractOperator {
 
-    static AllOperator INSTANCE = new AllOperator();
+    static Operator INSTANCE = new AllOperator();
     
     @Override
     public DBObject execute(String key, Object value) {
         return new BasicDBObject(key, new BasicDBObject(Operators.ALL, value));
+    }
+    
+    @Override
+    public void checkValue(Object value) {
+        
     }
     
 }

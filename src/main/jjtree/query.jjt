@@ -106,16 +106,16 @@ void term()  #Term :
 {
 	Token key = null;
 	Token op = null;
-	Token value = null;
+	Token paramNum = null;
 }
 {
     	key=<KEYWORD>
         ( op=<EQUALS> | op=<NE> | op=<LT> | op=<LTE> | op=<GT> | op=<GTE> | op=<IN> | op=<ALL> | op=<EXISTS> ) 
-        ( value=<PARAM_NUM>)
+        ( paramNum=<PARAM_NUM>)
         {
          	jjtThis.setKey(key.image);
-			jjtThis.setOp(op.image);
-			jjtThis.setValue(value.image);
+			jjtThis.setOperatorFromOp(op.image);
+			jjtThis.setParamNum(paramNum.image);
         }
 }
 

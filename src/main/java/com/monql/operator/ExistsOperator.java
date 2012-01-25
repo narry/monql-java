@@ -9,13 +9,18 @@ import com.mongodb.DBObject;
  * @author monql
  * @since 2012-1-23 上午11:43:53
  */
-public class ExistsOperator implements Operator {
+public class ExistsOperator extends AbstractOperator {
 
-    static ExistsOperator INSTANCE = new ExistsOperator();
+    static Operator INSTANCE = new ExistsOperator();
     
     @Override
     public DBObject execute(String key, Object value) {
         return new BasicDBObject(key, new BasicDBObject(Operators.EXISTS, value));
+    }
+    
+    @Override
+    public void checkValue(Object value) {
+        
     }
     
 }

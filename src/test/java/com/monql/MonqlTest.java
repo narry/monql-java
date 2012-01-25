@@ -117,8 +117,6 @@ public class MonqlTest {
         list.add(new BasicDBObject().append("b", b));
         DBObject expected = new BasicDBObject().append("name", name).append("$or", list);
         Assert.assertEquals(expected.toString(), actual.toString());
-        System.out.println(actual);
-        System.out.println(expected);
     }
 
 }

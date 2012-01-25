@@ -1,13 +1,22 @@
 package com.monql.grammar;
 
+import com.monql.operator.Operator;
+import com.monql.operator.OperatorFactory;
 
+
+/**
+ * 抽象语法树中的表达式节点
+ * 
+ * @author monql
+ * @since 2012-1-25 下午3:36:45
+ */
 public class ASTTerm extends SimpleNode {
 
     private String key;
 
-    private String op;
+    private Operator operator;
 
-    private String value;
+    private String paramNum;
 
     public Object jjtAccept(QueryVisitor visitor, Object data) {
         return visitor.visit(this, data);
@@ -23,15 +32,15 @@ public class ASTTerm extends SimpleNode {
 
     @Override
     public String toString() {
-        return key + op + value;
+        return key + operator + paramNum;
     }
 
-    public String getOp() {
-        return op;
+    public Operator getOperator() {
+        return operator;
     }
 
-    public void setOp(String op) {
-        this.op = op;
+    public void setOperatorFromOp(String op) {
+        this.operator = OperatorFactory.getOperator(op);
     }
 
     public String getKey() {
@@ -42,12 +51,12 @@ public class ASTTerm extends SimpleNode {
         this.key = key;
     }
 
-    public String getValue() {
-        return value;
+    public String getParamNum() {
+        return paramNum;
     }
 
-    public void setValue(String value) {
-        this.value = value;
+    public void setParamNum(String paramNum) {
+        this.paramNum = paramNum;
     }
 
 }
