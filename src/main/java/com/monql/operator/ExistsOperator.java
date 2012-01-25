@@ -23,4 +23,9 @@ public class ExistsOperator extends AbstractOperator {
         
     }
     
+    @Override
+    public String toString() {
+        return "exists";
+    }
+    
 }

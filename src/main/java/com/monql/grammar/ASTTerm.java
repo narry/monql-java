@@ -16,7 +16,7 @@ public class ASTTerm extends SimpleNode {
 
     private Operator operator;
 
-    private String paramNum;
+    private Integer paramNum;
 
     public Object jjtAccept(QueryVisitor visitor, Object data) {
         return visitor.visit(this, data);
@@ -32,7 +32,7 @@ public class ASTTerm extends SimpleNode {
 
     @Override
     public String toString() {
-        return key + operator + paramNum;
+        return key + " " + operator + " :" + paramNum;
     }
 
     public Operator getOperator() {
@@ -51,12 +51,12 @@ public class ASTTerm extends SimpleNode {
         this.key = key;
     }
 
-    public String getParamNum() {
+    public Integer getParamNum() {
         return paramNum;
     }
 
     public void setParamNum(String paramNum) {
-        this.paramNum = paramNum;
+        this.paramNum = Integer.valueOf(paramNum.substring(1));
     }
 
 }

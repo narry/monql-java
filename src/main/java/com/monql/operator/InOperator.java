@@ -21,5 +21,10 @@ public class InOperator extends AbstractOperator {
     @Override
     public void checkValue(Object value) {
     }
+ 
+    @Override
+    public String toString() {
+        return "in";
+    }
     
 }

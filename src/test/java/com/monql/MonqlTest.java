@@ -1,7 +1,9 @@
 package com.monql;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -117,6 +119,24 @@ public class MonqlTest {
         list.add(new BasicDBObject().append("b", b));
         DBObject expected = new BasicDBObject().append("name", name).append("$or", list);
         Assert.assertEquals(expected.toString(), actual.toString());
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testMultiParamNum() throws ParseException {
+        Monql.where("a = :1 or b = :1");
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testErrorParamNum() throws ParseException {
+        Monql.where("a = :1 or b = :3");
+    }
+    
+    @Test
+    public void testEqualParam() throws ParseException {
+        Set s = new HashSet();
+        s.add(100);
+        s.add(200);
+        System.out.println(Monql.where("a = :1 or b != :2").execute(1, s));
     }
 
 }

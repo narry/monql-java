@@ -58,7 +58,7 @@ public class DBObjectQueryVisitor implements QueryVisitor {
     @Override
     public Object visit(ASTTerm node, Object data) {
         String key = node.getKey();
-        String paramNum = node.getParamNum();
+        Integer paramNum = node.getParamNum();
         return node.getOperator().execute(key, ((Map) data).get(paramNum));
     }
 

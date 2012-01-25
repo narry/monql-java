@@ -1,5 +1,7 @@
 package com.monql.operator;
 
+import java.util.Collection;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
@@ -20,6 +22,15 @@ public class EqualOperator extends AbstractOperator {
     
     @Override
     public void checkValue(Object value) {
+        if (value.getClass().isArray()) 
+            throw new IllegalArgumentException("operator = don't support a array value");
+        if (value instanceof Collection)
+            throw new IllegalArgumentException("operator = don't support a collection value");
+    }
+    
+    @Override
+    public String toString() {
+        return "=";
     }
     
 }

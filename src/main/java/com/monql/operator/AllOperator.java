@@ -22,4 +22,9 @@ public class AllOperator extends AbstractOperator {
         
     }
     
+    @Override
+    public String toString() {
+        return "all";
+    }
+    
 }

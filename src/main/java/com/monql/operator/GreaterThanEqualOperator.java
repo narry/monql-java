@@ -22,4 +22,9 @@ public class GreaterThanEqualOperator extends AbstractOperator {
     public void checkValue(Object value) {
     }
     
+    @Override
+    public String toString() {
+        return ">=";
+    }
+    
 }
