@@ -26,8 +26,13 @@ public abstract class Monql {
         this.operatorMap = operatorMap;
     }
 
-    public static Monql where(String query) throws ParseException {
-        SimpleNode root = new Query(query).parse(); // 进行语法分析
+    public static Monql where(String query) {
+        SimpleNode root = null;
+        try {
+            root = new Query(query).parse(); // 进行语法分析
+        } catch (ParseException e) {
+            throw new IllegalArgumentException(e.getMessage());
+        }
         
         List<ASTTerm> terms = new ArrayList<ASTTerm>();
         root.jjtAccept(TermsQueryVisitor.INSTANCE, terms); // 遍历语法树得到terms，用于简单的参数检测

@@ -20,7 +20,8 @@ public class ExistsOperator extends AbstractOperator {
     
     @Override
     public void checkValue(Object value) {
-        
+        if (!(value instanceof Boolean)) 
+            throw new IllegalArgumentException("operator [" + toString() + "] only expected a boolean argument.");
     }
     
     @Override

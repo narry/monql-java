@@ -1,9 +1,7 @@
 package com.monql;
 
 import java.util.Arrays;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,12 +9,11 @@ import org.junit.Test;
 import com.mongodb.BasicDBList;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
-import com.monql.grammar.ParseException;
 
 public class MonqlTest {
 
     @Test
-    public void testEqual() throws ParseException {
+    public void testEqual() {
         String content = "hello";
         DBObject actual = Monql.where("a = :1").execute(content);
         DBObject expected = new BasicDBObject().append("a", content);
@@ -24,7 +21,7 @@ public class MonqlTest {
     }
     
     @Test
-    public void testNotEqual() throws ParseException {
+    public void testNotEqual() {
         String content = "hello";
         DBObject actual = Monql.where("a != :1").execute(content);
         DBObject expected = new BasicDBObject().append("a", new BasicDBObject().append("$ne", content));
@@ -32,7 +29,7 @@ public class MonqlTest {
     }
     
     @Test
-    public void testLessThan() throws ParseException {
+    public void testLessThan() {
         String content = "hello";
         DBObject actual = Monql.where("a < :1").execute(content);
         DBObject expected = new BasicDBObject().append("a", new BasicDBObject().append("$lt", content));
@@ -40,7 +37,7 @@ public class MonqlTest {
     }
     
     @Test
-    public void testLessThanEqual() throws ParseException {
+    public void testLessThanEqual() {
         String content = "hello";
         DBObject actual = Monql.where("a <= :1").execute(content);
         DBObject expected = new BasicDBObject().append("a", new BasicDBObject().append("$lte", content));
@@ -48,7 +45,7 @@ public class MonqlTest {
     }
     
     @Test
-    public void testGreaterThan() throws ParseException {
+    public void testGreaterThan() {
         int content = 22;
         DBObject actual = Monql.where("a > :1").execute(content);
         DBObject expected = new BasicDBObject().append("a", new BasicDBObject().append("$gt", content));
@@ -56,7 +53,7 @@ public class MonqlTest {
     }
     
     @Test
-    public void testGreaterThanEqual() throws ParseException {
+    public void testGreaterThanEqual() {
         int content = 22;
         DBObject actual = Monql.where("a >= :1").execute(content);
         DBObject expected = new BasicDBObject().append("a", new BasicDBObject().append("$gte", content));
@@ -64,7 +61,7 @@ public class MonqlTest {
     }
     
     @Test
-    public void testIn() throws ParseException {
+    public void testIn() {
         List<Integer> content = Arrays.asList(1, 2, 3);
         DBObject actual = Monql.where("a in :1").execute(content);
         DBObject expected = new BasicDBObject().append("a", new BasicDBObject().append("$in", content));
@@ -72,7 +69,7 @@ public class MonqlTest {
     }
     
     @Test
-    public void testAll() throws ParseException {
+    public void testAll() {
         List<Integer> content = Arrays.asList(1, 2, 3);
         DBObject actual = Monql.where("a all :1").execute(content);
         DBObject expected = new BasicDBObject().append("a", new BasicDBObject().append("$all", content));
@@ -80,7 +77,7 @@ public class MonqlTest {
     }
     
     @Test
-    public void testExists() throws ParseException {
+    public void testExists() {
         boolean content = true;
         DBObject actual = Monql.where("a exists :1").execute(content);
         DBObject expected = new BasicDBObject().append("a", new BasicDBObject().append("$exists", content));
@@ -88,7 +85,7 @@ public class MonqlTest {
     }
     
     @Test
-    public void testAnd() throws ParseException {
+    public void testAnd() {
         String content = "test";
         int content2 = 100;
         DBObject actual = Monql.where("a = :1 and b = :2").execute(content, content2);
@@ -97,7 +94,7 @@ public class MonqlTest {
     }
     
     @Test
-    public void testOr() throws ParseException {
+    public void testOr() {
         String content = "test";
         int content2 = 100;
         DBObject actual = Monql.where("a = :1 or b = :2").execute(content, content2);
@@ -109,7 +106,7 @@ public class MonqlTest {
     }
     
     @Test
-    public void testCompound() throws ParseException {
+    public void testCompound() {
         String name = "bob";
         int a = 100;
         int b = 2;
@@ -122,21 +119,33 @@ public class MonqlTest {
     }
     
     @Test(expected = IllegalArgumentException.class)
-    public void testMultiParamNum() throws ParseException {
+    public void testIllegalArgumentException() {
+        Monql.where("a = :1").execute(Arrays.asList(100, 200));
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalArgumentException2() {
+        Monql.where("a exists :1").execute(1);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testIllegalArgumentException3() {
+        Monql.where("a in :1").execute(1);
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testMultiParamNum() {
         Monql.where("a = :1 or b = :1");
     }
     
     @Test(expected = IllegalArgumentException.class)
-    public void testErrorParamNum() throws ParseException {
+    public void testErrorParamNum() {
         Monql.where("a = :1 or b = :3");
     }
     
-    @Test
-    public void testEqualParam() throws ParseException {
-        Set s = new HashSet();
-        s.add(100);
-        s.add(200);
-        System.out.println(Monql.where("a = :1 or b != :2").execute(1, s));
+    @Test(expected = IllegalArgumentException.class)
+    public void testParseException() {
+        Monql.where("a > 1");
     }
 
 }

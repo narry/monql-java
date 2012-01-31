@@ -1,5 +1,7 @@
 package com.monql.operator;
 
+import java.util.Collection;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
@@ -20,6 +22,10 @@ public class LessThanOperator extends AbstractOperator {
     
     @Override
     public void checkValue(Object value) {
+        if (value.getClass().isArray()) 
+            throw new IllegalArgumentException("operator [" + toString() + "] expected a single value argument but an array argument.");
+        if (value instanceof Collection)
+            throw new IllegalArgumentException("operator [" + toString() + "] expected a single value argument but a collection argument.");
     }
     
     @Override

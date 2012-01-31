@@ -1,5 +1,7 @@
 package com.monql.operator;
 
+import java.util.Collection;
+
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
@@ -20,6 +22,8 @@ public class InOperator extends AbstractOperator {
     
     @Override
     public void checkValue(Object value) {
+        if (!value.getClass().isArray() && !(value instanceof Collection)) 
+            throw new IllegalArgumentException("operator [" + toString() + "] expected an array or a collection argument but a single value argument.");
     }
  
     @Override

@@ -23,9 +23,9 @@ public class EqualOperator extends AbstractOperator {
     @Override
     public void checkValue(Object value) {
         if (value.getClass().isArray()) 
-            throw new IllegalArgumentException("operator = don't support a array value");
+            throw new IllegalArgumentException("operator [" + toString() + "] expected a single value argument but an array argument.");
         if (value instanceof Collection)
-            throw new IllegalArgumentException("operator = don't support a collection value");
+            throw new IllegalArgumentException("operator [" + toString() + "] expected a single value argument but a collection argument.");
     }
     
     @Override
