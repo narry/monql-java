@@ -147,5 +147,14 @@ public class MonqlTest {
     public void testParseException() {
         Monql.where("a > 1");
     }
+    
+    @Test
+    public void testCache() {
+        Monql a = Monql.where("a > :1");
+        Monql b = Monql.where("a > :1");
+        Monql c = Monql.where("a > :1");
+        Assert.assertEquals(a, b);
+        Assert.assertEquals(a, c);
+    }
 
 }
