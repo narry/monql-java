@@ -156,5 +156,25 @@ public class MonqlTest {
         Assert.assertEquals(a, b);
         Assert.assertEquals(a, c);
     }
+    
+    
+    @Test
+    public void test() {
+        System.out.println(Monql.where("a > :1 and a < :2").execute(1, 10));
+    }
+    
 
 }
+
+
+
+
+
+
+
+
+
+
+
+
+

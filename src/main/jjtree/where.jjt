@@ -6,37 +6,22 @@ options
  	VISITOR=true;
 }
 
-PARSER_BEGIN(Query)
+PARSER_BEGIN(WhereParser)
 package com.monql.grammar;
 
 import java.io.StringReader;
 import java.io.Reader;
 
-public class Query {
+public class WhereParser {
 
-	public Query(String s) 
+	public WhereParser(String s) 
     {
         this((Reader)(new StringReader(s))); 
         
     }
-   
-    public static void main(String args[])
-    {
-        try
-        {
-                String query = "a = :1 and (b = :2 or c = :3)";
-                Query parser = new Query(query);
-                parser.parse().dump("");
-        }
-        catch(Exception e)
-        {
-                e.printStackTrace();
-        }
-    }
-    
 }
 
-PARSER_END(Query)
+PARSER_END(WhereParser)
 
 SKIP :                              
 {
@@ -69,7 +54,7 @@ TOKEN :
 	| 	 < PARAM_NUM: ":"["1"-"9"] >
 }
 
-SimpleNode parse()  #Root :
+SimpleNode parse()  #RootNode :
 {
 }
 {
@@ -78,19 +63,16 @@ SimpleNode parse()  #Root :
     }
 }
 
-void expression() #And(>1) :
+void expression() #OrNode(>1) :
+{}
 {
-	Token t = null;
+ 	andExpression()  ( <OR> andExpression() )*
 }
+
+void andExpression() #AndNode(>1) :
+{}
 {
-  			 termOrExpression()
-            (
-              ( t = <AND> |t = <OR> ) 
-              termOrExpression()
-				 {
-              	jjtThis.setOp(t.image);
-              }
-              )*
+	termOrExpression() ( <AND> termOrExpression() )*
 }
 
 void termOrExpression()  #void :
@@ -102,7 +84,7 @@ void termOrExpression()  #void :
         <LPAREN> expression() <RPAREN>
 }
 
-void term()  #Term :
+void term()  #TermNode :
 {
 	Token key = null;
 	Token op = null;

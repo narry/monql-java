@@ -16,8 +16,8 @@ public class InOperator extends AbstractOperator {
     static Operator INSTANCE = new InOperator();
     
     @Override
-    public DBObject execute(String key, Object value) {
-        return new BasicDBObject(key, new BasicDBObject(Operators.IN, value));
+    public DBObject execute(Object value) {
+        return new BasicDBObject(Operators.IN, value);
     }
     
     @Override

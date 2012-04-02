@@ -9,12 +9,13 @@ import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
 import com.mongodb.DBObject;
-import com.monql.grammar.ASTTerm;
 import com.monql.grammar.ParseException;
-import com.monql.grammar.Query;
 import com.monql.grammar.SimpleNode;
+import com.monql.grammar.TermNode;
+import com.monql.grammar.WhereParser;
 import com.monql.operator.Operator;
-import com.monql.visitor.TermsQueryVisitor;
+import com.monql.visitor.GenerateTermsVisitor;
+import com.monql.visitor.TermsMergerVisitor;
 
 
 public abstract class Monql {
@@ -39,16 +40,21 @@ public abstract class Monql {
         
         SimpleNode root = null;
         try {
-            root = new Query(query).parse(); // 进行语法分析
+            root = new WhereParser(query).parse(); // 进行语法分析
         } catch (ParseException e) {
             throw new IllegalArgumentException(e.getMessage());
         }
         
-        List<ASTTerm> terms = new ArrayList<ASTTerm>();
-        root.jjtAccept(TermsQueryVisitor.INSTANCE, terms); // 遍历语法树得到terms，用于简单的参数检测
+        List<TermNode> terms = new ArrayList<TermNode>();
+        root.jjtAccept(GenerateTermsVisitor.INSTANCE, terms); // 遍历语法树得到terms，用于简单的参数检测
+        root.jjtAccept(TermsMergerVisitor.INSTANCE, terms); // 遍历语法树得到terms，用于简单的参数检测
+        
+        for (TermNode termNode : terms) { // 检查key是否合法
+            termNode.getOperator().checkKey(termNode.getKey());
+        }
         
         Map<Integer, Integer> paramNumMap = new HashMap<Integer, Integer>(); // 统计paramNum(如[:1])的出现次数
-        for (ASTTerm term : terms) {
+        for (TermNode term : terms) {
             int paramNum = term.getParamNum();
             Integer count = paramNumMap.get(paramNum);
             if (count == null)
@@ -72,7 +78,7 @@ public abstract class Monql {
         }
         
         Map<Integer, Operator> operatorMap = new HashMap<Integer, Operator>();
-        for (ASTTerm term : terms) {
+        for (TermNode term : terms) {
             operatorMap.put(term.getParamNum(), term.getOperator());
         }
         

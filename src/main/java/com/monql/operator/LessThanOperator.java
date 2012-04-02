@@ -16,8 +16,8 @@ public class LessThanOperator extends AbstractOperator {
     static Operator INSTANCE = new LessThanOperator();
     
     @Override
-    public DBObject execute(String key, Object value) {
-        return new BasicDBObject(key, new BasicDBObject(Operators.LT, value));
+    public DBObject execute(Object value) {
+        return new BasicDBObject(Operators.LT, value);
     }
     
     @Override

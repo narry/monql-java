@@ -14,8 +14,8 @@ public class ExistsOperator extends AbstractOperator {
     static Operator INSTANCE = new ExistsOperator();
     
     @Override
-    public DBObject execute(String key, Object value) {
-        return new BasicDBObject(key, new BasicDBObject(Operators.EXISTS, value));
+    public DBObject execute(Object value) {
+        return new BasicDBObject(Operators.EXISTS, value);
     }
     
     @Override

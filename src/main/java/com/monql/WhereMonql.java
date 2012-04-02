@@ -6,7 +6,7 @@ import java.util.Map;
 import com.mongodb.DBObject;
 import com.monql.grammar.SimpleNode;
 import com.monql.operator.Operator;
-import com.monql.visitor.DBObjectQueryVisitor;
+import com.monql.visitor.GenerateDBObjectVisitor;
 
 /**
  * sql-->dbobject
@@ -33,7 +33,7 @@ final public class WhereMonql extends Monql {
             operatorMap.get(paramNum).checkValue(obj);
             params.put(paramNum, obj);
         }
-        return (DBObject) root.jjtAccept(DBObjectQueryVisitor.INSTANCE, params);
+        return (DBObject) root.jjtAccept(GenerateDBObjectVisitor.INSTANCE, params);
     }
     
 }

@@ -15,8 +15,8 @@ public class AllOperator extends AbstractOperator {
     static Operator INSTANCE = new AllOperator();
     
     @Override
-    public DBObject execute(String key, Object value) {
-        return new BasicDBObject(key, new BasicDBObject(Operators.ALL, value));
+    public DBObject execute(Object value) {
+        return new BasicDBObject(Operators.ALL, value);
     }
     
     @Override

@@ -41,7 +41,7 @@
 	              			<goal>jjtree-javacc</goal>
 	            		</goals>
 	            		<configuration>
-	              		<!-- options for JJTree and JavaCC go here -->
+	            			<nodePrefix>""</nodePrefix>
 	            		</configuration>
 	          		</execution>
 	        	</executions>

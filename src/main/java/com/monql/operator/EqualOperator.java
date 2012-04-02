@@ -2,7 +2,6 @@ package com.monql.operator;
 
 import java.util.Collection;
 
-import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 
 /**
@@ -16,8 +15,8 @@ public class EqualOperator extends AbstractOperator {
     static Operator INSTANCE = new EqualOperator();
     
     @Override
-    public DBObject execute(String key, Object value) {
-        return new BasicDBObject(key, value);
+    public DBObject execute(Object value) {
+        return null;
     }
     
     @Override

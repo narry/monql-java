@@ -17,7 +17,7 @@ public interface Operator {
      * @param value doc中的value
      * @return
      */
-    public DBObject execute(String key, Object value);
+    public DBObject execute(Object value);
     
     /**
      * 检查key

@@ -16,8 +16,8 @@ public class NotEqualOperator extends AbstractOperator {
     static Operator INSTANCE = new NotEqualOperator();
     
     @Override
-    public DBObject execute(String key, Object value) {
-        return new BasicDBObject(key, new BasicDBObject(Operators.NE, value));
+    public DBObject execute(Object value) {
+        return new BasicDBObject(Operators.NE, value);
     }
     
     @Override

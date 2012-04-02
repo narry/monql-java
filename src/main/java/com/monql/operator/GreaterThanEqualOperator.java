@@ -16,8 +16,8 @@ public class GreaterThanEqualOperator extends AbstractOperator {
     static Operator INSTANCE = new GreaterThanEqualOperator();
     
     @Override
-    public DBObject execute(String key, Object value) {
-        return new BasicDBObject(key, new BasicDBObject(Operators.GTE, value));
+    public DBObject execute(Object value) {
+        return new BasicDBObject(Operators.GTE, value);
     }
     
     @Override
