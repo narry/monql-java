@@ -33,7 +33,11 @@ final public class WhereMonql extends Monql {
             operatorMap.get(paramNum).checkValue(obj);
             params.put(paramNum, obj);
         }
-        return (DBObject) root.jjtAccept(GenerateDBObjectVisitor.INSTANCE, params);
+        
+        DBObject dbObj = (DBObject) root.jjtAccept(GenerateDBObjectVisitor.INSTANCE, params);
+        if (dbObj.keySet().isEmpty()) // 除非前面的程序bug，否则不会走到这一步
+            throw new IllegalStateException("generated DBObject can't be empty.");
+        return dbObj;
     }
     
 }
