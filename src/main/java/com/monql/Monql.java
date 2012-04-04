@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
+import com.mongodb.BasicDBObject;
 import com.mongodb.DBObject;
 import com.monql.grammar.ParseException;
 import com.monql.grammar.SimpleNode;
@@ -88,6 +89,16 @@ public abstract class Monql {
             return temp;
         return monql;
         
+    }
+    
+    public static DBObject fields(List<String> fields) {
+        DBObject dbObjFields = new BasicDBObject();
+        if (fields != null) {
+            for (String field : fields) {
+                dbObjFields.put(field, 1);
+            }
+        }
+        return dbObjFields;
     }
     
     abstract public DBObject execute(Object... objs);

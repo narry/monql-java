@@ -118,6 +118,28 @@ public class MonqlTest {
         Assert.assertEquals(expected.toString(), actual.toString());
     }
     
+    @Test
+    public void testCompound2() {
+        int i = 100;
+        int j = 200;
+        DBObject actual = Monql.where("a > :1 and a <= :2").execute(i, j);
+        DBObject expected = new BasicDBObject("a", new BasicDBObject().append("$gt", i).append("$lte", j));
+        Assert.assertEquals(expected.toString(), actual.toString());
+    }
+    
+    @Test
+    public void testCompound3() { // and的优先级高于or
+        String name = "bob";
+        int a = 100;
+        int b = 2;
+        DBObject actual = Monql.where("name = :1 or a = :2 and b = :3").execute(name, a, b);
+        BasicDBList list = new BasicDBList();
+        list.add(new BasicDBObject().append("name", name));
+        list.add(new BasicDBObject().append("a", a).append("b", b));
+        DBObject expected = new BasicDBObject().append("$or", list);
+        Assert.assertEquals(expected.toString(), actual.toString());
+    }
+    
     @Test(expected = IllegalArgumentException.class)
     public void testIllegalArgumentException() {
         Monql.where("a = :1").execute(Arrays.asList(100, 200));
@@ -156,25 +178,12 @@ public class MonqlTest {
         Assert.assertEquals(a, b);
         Assert.assertEquals(a, c);
     }
-    
-    
+
     @Test
-    public void test() {
-        System.out.println(Monql.where("a > :1 and a < :2").execute(1, 10));
+    public void testFields() {
+        DBObject actual = Monql.fields(Arrays.asList("a", "b", "c"));
+        DBObject expected = new BasicDBObject().append("a", 1).append("b", 1).append("c", 1);
+        Assert.assertEquals(expected.toString(), actual.toString());
     }
-    
 
 }
-
-
-
-
-
-
-
-
-
-
-
-
-

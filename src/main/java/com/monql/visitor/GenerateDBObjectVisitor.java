@@ -79,10 +79,9 @@ public class GenerateDBObjectVisitor implements WhereParserVisitor {
             paramNum = nextTermNode.getParamNum();
             value = ((Map) data).get(paramNum);
             DBObject nextDbObj = nextTermNode.getOperator().execute(value);
-            if (nextDbObj == null) {
-                throw new IllegalArgumentException();
+            if (nextDbObj != null) {
+                dbObj.putAll(nextDbObj);
             }
-            dbObj.putAll(nextDbObj);
             nextTermNode = nextTermNode.getNextTermNode();
         }
         return new BasicDBObject(key, dbObj);
