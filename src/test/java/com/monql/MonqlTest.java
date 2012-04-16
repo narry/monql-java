@@ -167,7 +167,17 @@ public class MonqlTest {
     
     @Test(expected = IllegalArgumentException.class)
     public void testParseException() {
-        Monql.where("a > 1");
+        Monql.where("test > 1");
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testParseException2() {
+        Monql.where("$ab > :1");
+    }
+    
+    @Test(expected = IllegalArgumentException.class)
+    public void testParseException3() {
+        Monql.where("a.b > :1");
     }
     
     @Test
