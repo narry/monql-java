@@ -6,7 +6,7 @@
 	<artifactId>monql-java</artifactId>
 	<name>monql-java</name>
 	<packaging>jar</packaging>
-	<version>0.21</version>
+	<version>0.22</version>
 	<developers>
 		<developer>
 			<id>monql</id>
