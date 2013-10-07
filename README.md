@@ -1,8 +1,8 @@
-## monql-java
+# monql-java
 
 mongodb java工具，使用类似sql的语法生成mongodb查询对象
 
-#monql设计思想
+##设计思想
 
 使用[mongo-java-driver](https://github.com/mongodb/mongo-java-driver)对[mongodb](http://www.mongodb.org/)中的数据进行查找，更新，删除操作时需要构造[DBObject](https://github.com/mongodb/mongo-java-driver/blob/master/src/main/com/mongodb/DBObject.java)对象。简单的DBObject对象构造起来容易，如(a=1)可以使用`new BasicDBObject("a", 1)`构造，但如果查询条件比较复杂，则DBObject对象的构造就不那么容易了。monql的诞生就是为了快速，灵活的构造DBObject对象。<br>
 monql使用一种“直白的语言”构造DBObject对象，如(a = 1 or (b = "test" and c = "xxx"))，假设我们直接使用new的方式，会写不少代码，而且书写代码的过程中容易出现错误。使用monql的话，则可以直接将a = 1 or (b = "test" and c = "xxx")照搬，使用`Monql.where("a = :1 or (b = :2 and c = :3)").execute(1, "test", "xxx")`即可完成。其中:1,:2,:3代表需要传入参数的位置，在本例中，参数1会放入:1的位置，参数"test"会放入:2的位置，参数"xxx"会放入:3的位置。
